@@ -13,7 +13,11 @@ const startServer = async () => {
   
   // CORS ayarları - Vercel ve local geliştirme için
   app.use(cors({
-    origin: ['https://your-vercel-app-url.vercel.app', 'http://localhost:4202'],
+    origin: [
+      'https://101205359comp3133assignment2-5p8btpzdv-ali-cebes-projects.vercel.app', 
+      'https://101205359comp3133assignment2.vercel.app',
+      'http://localhost:4202'
+    ],
     credentials: true
   }));
 
