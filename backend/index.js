@@ -21,13 +21,25 @@ const startServer = async () => {
     typeDefs,
     resolvers,
     context: ({ req }) => auth(req),
+    cache: "bounded" // Fix for the Apollo cache warning
   });
 
   await server.start();
   server.applyMiddleware({ app });
 
-  await mongoose.connect(process.env.MONGO_URI);
-  console.log('🚀 MongoDB connected');
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      ssl: true,
+      tlsAllowInvalidCertificates: false,
+      retryWrites: true,
+      w: "majority"
+    });
+    console.log('🚀 MongoDB connected');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+  }
 
   const PORT = process.env.PORT || 4000;
   app.listen(PORT, () => {
