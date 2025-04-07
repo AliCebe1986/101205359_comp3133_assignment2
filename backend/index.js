@@ -10,7 +10,12 @@ const auth = require('./middleware/auth');
 
 const startServer = async () => {
   const app = express();
-  app.use(cors());
+  
+  // CORS ayarları - Vercel ve local geliştirme için
+  app.use(cors({
+    origin: ['https://your-vercel-app-url.vercel.app', 'http://localhost:4202'],
+    credentials: true
+  }));
 
   const server = new ApolloServer({
     typeDefs,
